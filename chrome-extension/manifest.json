@@ -1,0 +1,6 @@
+ {
+    "name": "Sequence Maker",
+    "version": "1.0",
+    "description": "Show mermaid style sequence diagram",
+    "manifest_version": 2
+ }
