@@ -1,91 +1,41 @@
-import { v4 as uuid } from "uuid";
+import Lifeline from "./lifeline";
 
-const sesstionKey = "chrm_ext_seq";
 enum MessageType {
-  PARTICIPANT = "participant",
-  SYNC_MESSAGE = "sync_message",
+  SYNC_MESSAGE,
+  REPLY_MESSAGE,
 }
 
-type Record = {
-  type: MessageType;
-  action: string;
-  timestamp: number;
-};
-class Actor {
-  private readonly _allMessages: MessageType[];
-  private _tmpMessage?: { type: MessageType; text: string };
-  records: Record[];
-  constructor(readonly name: string) {
-    this.records = [];
-    this._allMessages = [MessageType.PARTICIPANT, MessageType.SYNC_MESSAGE];
-    this._flush();
-    this._set(MessageType.PARTICIPANT, `participant ${name}`);
-  }
-  postSyncMessage(text: string): this {
-    this._tmpMessage = {
-      type: MessageType.SYNC_MESSAGE,
-      text,
-    };
-    return this;
-  }
-  to(actor: Actor): void {
-    if (!this._tmpMessage) throw new Error("call message function firstly.");
-    this._set(
-      this._tmpMessage.type,
-      `${this.name}->>${actor.name}: ${this._tmpMessage.text}`
-    );
-  }
-  _set(type: MessageType, v: string): void {
-    const d: Record = {
-      type,
-      action: v,
-      timestamp: new Date().getTime(),
-    };
-    this.records.push(d);
-  }
-
-  _flush(): void {
-    sessionStorage.removeItem(sesstionKey);
-  }
-
-  _dump() {
-    `sequenceDiagram`;
+class SequenceCounter {
+  private static _num = 0;
+  static getNum(): number {
+    return this._num++;
   }
 }
 
-const dump = (...actors: Actor[]): string => {
-  const str = restructure(actors);
+const dump = (...lifelines: Lifeline[]): string => {
+  const str = restructure(lifelines);
   console.log(str);
   return `sequenceDiagram
 ${str}`;
 };
 
-const restructure = (actors: Actor[]): string => {
-  const all = actors.map((actor) => actor.records).flat();
+const restructure = (lifelines: Lifeline[]): string => {
+  const all = lifelines.map((lifeline) => lifeline.records).flat();
   let res = "";
   const participants = all
-    .filter((r) => r.type === MessageType.PARTICIPANT)
+    .filter((r) => r.type === "participant")
     .map((r) => r.action)
-    .reduce(
-      (prev, current) =>
-        `${prev}
-${current}
-
-`
-    );
+    .reduce((prev, current) => prev + "\n" + current + "\n\n");
+  console.log(all.filter((r) => r.type !== "participant"));
   const actions = all
-    .sort((a, b) => a.timestamp - b.timestamp)
-    .filter((r) => r.type !== MessageType.PARTICIPANT)
+    .filter((r) => r.type !== "participant")
+    .sort((a, b) => a.seq - b.seq)
     .map((r) => r.action)
-    .reduce(
-      (prev, current) =>
-        `${prev}
-${current}`
-    );
+    .reduce((prev, current) => prev + "\n" + current);
 
   res += participants;
   res += actions;
   return res;
 };
 
-export { Actor, dump };
+export { Lifeline, MessageType, SequenceCounter, dump };

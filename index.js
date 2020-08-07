@@ -1,13 +1,14 @@
-import { Actor, dump } from "./src";
+import { Lifeline, MessageType, dump } from "./src";
 import mermaid from "mermaid";
-const alice = new Actor("Alice");
-const bob = new Actor("Bob");
-const yamada = new Actor("Yamada");
-alice.postSyncMessage("hello").to(bob);
-bob.postSyncMessage("hello").to(alice);
-yamada.postSyncMessage("hihi").to(bob);
 
-const txt = dump(alice, bob, yamada);
+const momoko = new Lifeline("Momoko");
+const naopi = new Lifeline("Naopi");
+
+naopi.sendMessage("Hi", MessageType.SYNC_MESSAGE).to(momoko);
+momoko.sendMessage("Hello", MessageType.REPLY_MESSAGE).to(naopi);
+naopi.sendMessage("Hi", MessageType.SYNC_MESSAGE).to(naopi);
+
+const txt = dump(naopi, momoko);
 mermaid.initialize({
   securityLevel: "loose",
 });
