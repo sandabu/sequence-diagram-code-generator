@@ -1,4 +1,4 @@
-import Lifeline from "./lifeline";
+import Actor from "./actor";
 
 enum MessageType {
   SYNC_MESSAGE,
@@ -12,15 +12,15 @@ class SequenceCounter {
   }
 }
 
-const dump = (...lifelines: Lifeline[]): string => {
-  const str = restructure(lifelines);
+const dump = (...actors: Actor[]): string => {
+  const str = restructure(actors);
   console.log(str);
   return `sequenceDiagram
 ${str}`;
 };
 
-const restructure = (lifelines: Lifeline[]): string => {
-  const all = lifelines.map((lifeline) => lifeline.records).flat();
+const restructure = (actors: Actor[]): string => {
+  const all = actors.map((actor) => actor.records).flat();
   let res = "";
   const participants = all
     .filter((r) => r.type === "participant")
@@ -38,4 +38,4 @@ const restructure = (lifelines: Lifeline[]): string => {
   return res;
 };
 
-export { Lifeline, MessageType, SequenceCounter, dump };
+export { Actor, MessageType, SequenceCounter, dump };

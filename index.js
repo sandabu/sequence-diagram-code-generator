@@ -1,8 +1,8 @@
-import { Lifeline, MessageType, dump } from "./src";
+import { Actor, MessageType, dump } from "./src";
 import mermaid from "mermaid";
 
-const momoko = new Lifeline("Momoko");
-const naopi = new Lifeline("Naopi");
+const momoko = new Actor("Momoko");
+const naopi = new Actor("Naopi");
 
 naopi.sendMessage("Hi", MessageType.SYNC_MESSAGE).to(momoko);
 momoko.sendMessage("Hello", MessageType.REPLY_MESSAGE).to(naopi);

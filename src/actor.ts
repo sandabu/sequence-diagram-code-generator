@@ -9,7 +9,7 @@ type Record = {
   timestamp: number;
 };
 
-export default class Lifeline {
+export default class Actor {
   private _tmpMessage: { type: MessageType; text: string } | null;
   records: Record[];
   constructor(readonly name: string) {
@@ -26,11 +26,11 @@ export default class Lifeline {
     };
     return this;
   }
-  to(lifeline: Lifeline): void {
+  to(actor: Actor): void {
     if (!this._tmpMessage) throw new Error("Call sendMessage() firstly.");
     this._set(
       this._tmpMessage.type,
-      `${this.name}${this._getAllow(this._tmpMessage.type)}${lifeline.name}: ${
+      `${this.name}${this._getAllow(this._tmpMessage.type)}${actor.name}: ${
         this._tmpMessage.text
       }`
     );
