@@ -1,8 +1,8 @@
 {
-  "name": "sequence-maker",
+  "name": "sequence-diagram-code-generator",
   "version": "1.0.0",
-  "description": "chrome-extension",
-  "main": "index.js",
+  "description": "Generate code of mermaid style sequence diagram",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel example/index.html",
@@ -10,10 +10,13 @@
     "lint:fix": "eslint --fix"
   },
   "keywords": [
-    "chrome-extension"
+    "sequence",
+    "diagram",
+    "mermaid",
+    "code generator"
   ],
-  "author": "shalman",
-  "license": "ISC",
+  "author": "Naoto Takahashi",
+  "license": "MIT",
   "devDependencies": {
     "@types/mermaid": "^8.2.1",
     "@types/uuid": "^8.0.1",
