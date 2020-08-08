@@ -2,11 +2,10 @@ import { MessageType, NotePosition } from "./definition";
 import Actor from "./actor";
 
 const dump = (...actors: Actor[]): string => {
-  if (actors.length === 0) return "";
+  if (actors.length === 0) return ""
   const str = restructure(actors);
-  console.log(str);
-  return `sequenceDiagram
-${str}`;
+  let res = 'sequenceDiagram';
+  return res + '\n' + indent(str);
 };
 
 const restructure = (actors: Actor[]): string => {
@@ -16,7 +15,6 @@ const restructure = (actors: Actor[]): string => {
     .filter((r) => r.type === "participant")
     .map((r) => r.action)
     .reduce((prev, current) => prev + "\n" + current + "\n\n");
-  console.log(all.filter((r) => r.type !== "participant"));
   const actions = all
     .filter((r) => r.type !== "participant")
     .sort((a, b) => a.seq - b.seq)
@@ -27,5 +25,9 @@ const restructure = (actors: Actor[]): string => {
   res += actions;
   return res;
 };
+
+const indent = (text: string) => {
+  return text.split('\n').map((s) => '\t' + s).reduce((prev, current) => prev + '\n' + current)
+}
 
 export { Actor, MessageType, NotePosition, dump };
