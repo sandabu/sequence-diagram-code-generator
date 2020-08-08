@@ -1,7 +1,9 @@
-import { MessageType, SequenceCounter } from "./index";
+import { MessageType, SequenceCounter, NotePosition } from "./index";
 
-type RecordType = "participant" | MessageType;
+type MessageType = typeof MessageType[keyof typeof MessageType];
+type NotePosition = typeof NotePosition[keyof typeof NotePosition];
 
+type RecordType = "participant" | "Note" | MessageType;
 type Record = {
   type: RecordType;
   action: string;
@@ -35,6 +37,23 @@ export default class Actor {
       }`
     );
     this._tmpMessage = null;
+  }
+  writeNote(text: string, position: NotePosition, actor?: Actor): void {
+    if (actor && position !== "over")
+      throw new Error("Set NotePosition.OVER if set actor");
+    if (!actor && position === "over")
+      throw new Error("Set actor if set NotePosition.OVER ");
+    let leftText = "";
+    switch (position) {
+      case NotePosition.LEFT:
+      case NotePosition.RIGHT:
+        leftText = `Note ${position} of ${this.name}: ${text}`;
+        break;
+      case NotePosition.OVER:
+        leftText = `Note over ${this.name},${actor!.name}: ${text}`;
+        break;
+    }
+    this._set("Note", leftText);
   }
   private _set(type: RecordType, v: string): void {
     const d: Record = {

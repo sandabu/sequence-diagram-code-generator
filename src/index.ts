@@ -1,9 +1,15 @@
 import Actor from "./actor";
 
-enum MessageType {
-  SYNC_MESSAGE,
-  REPLY_MESSAGE,
-}
+const MessageType = {
+  SYNC_MESSAGE: "sync_message",
+  REPLY_MESSAGE: "reply_message",
+} as const;
+
+const NotePosition = {
+  LEFT: "left",
+  RIGHT: "right",
+  OVER: "over",
+} as const;
 
 class SequenceCounter {
   private static _num = 0;
@@ -38,4 +44,4 @@ const restructure = (actors: Actor[]): string => {
   return res;
 };
 
-export { Actor, MessageType, SequenceCounter, dump };
+export { Actor, MessageType, NotePosition, SequenceCounter, dump };
