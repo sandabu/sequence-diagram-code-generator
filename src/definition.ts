@@ -1,6 +1,6 @@
 const MessageType = {
-  SYNC: "sync",
-  REPLY: "reply",
+  SYNC: "Message_Sync",
+  REPLY: "Message_Reply",
 } as const;
 
 const NotePosition = {

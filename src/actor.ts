@@ -21,23 +21,11 @@ export default class Actor {
     this._flush();
     this._set("participant", `participant ${name}`);
   }
-  sendMessage(text: string, type: MessageType): this {
-    if (this._tmpMessage) throw new Error("Cannot call sendMessage() twice");
-    this._tmpMessage = {
-      type,
-      text,
-    };
-    return this;
-  }
-  to(actor: Actor): void {
-    if (!this._tmpMessage) throw new Error("Call sendMessage() firstly.");
-    this._set(
-      this._tmpMessage.type,
-      `${this.name}${this._getAllow(this._tmpMessage.type)}${actor.name}: ${
-        this._tmpMessage.text
-      }`
-    );
-    this._tmpMessage = null;
+  sendMessage(text: string, to: Actor, type: MessageType): void;
+  sendMessage(text: string, to: string, type: MessageType): void;
+  sendMessage(text: string, to: Actor | string, type: MessageType): void {
+    const name = typeof to === "string" ? to : to.name;
+    this._set(type, `${this.name}${this._getAllow(type)}${name}: ${text}`);
   }
   writeNote(text: string, position: NotePosition): void {
     const leftText = `Note ${position} of ${this.name}: ${text}`;
