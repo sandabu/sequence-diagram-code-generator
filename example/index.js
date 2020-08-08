@@ -1,20 +1,24 @@
 import { Actor, MessageType, NotePosition, dump } from "../src";
 import mermaid from "mermaid";
 
-const momoko = new Actor("Momoko");
-const naopi = new Actor("Naopi");
+const alice = new Actor("Alice");
+const bob = new Actor("Aob");
 
-naopi.sendMessage("Hi", "Momoko", MessageType.SYNC);
-momoko.sendMessage("Hello", naopi, MessageType.REPLY);
+bob.sendMessage("Hi", "Alice", MessageType.SYNC);
+alice.activate();
+alice.sendMessage("Think", alice, MessageType.SYNC);
+alice.sendMessage("Hello", bob, MessageType.REPLY);
+alice.deactivate();
+
 setTimeout(() => {
-  naopi.writeNote("Hummmm...", NotePosition.LEFT);
+  bob.writeNote("Hummmm...", NotePosition.LEFT);
   render();
 }, 100);
 
-momoko.writeNoteOver("Why did I say hello...?", momoko);
+alice.writeNoteOver("Why did I say hello...?", alice);
 
 const render = () => {
-  const txt = dump(naopi, momoko);
+  const txt = dump(bob, alice);
   mermaid.initialize({
     securityLevel: "loose",
   });

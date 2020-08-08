@@ -4,7 +4,12 @@ import Counter from "./counter";
 type MessageType = typeof MessageType[keyof typeof MessageType];
 type NotePosition = typeof NotePosition[keyof typeof NotePosition];
 
-type RecordType = "participant" | "Note" | MessageType;
+type RecordType =
+  | "participant"
+  | "Note"
+  | "activate"
+  | "deactivate"
+  | MessageType;
 type Record = {
   type: RecordType;
   action: string;
@@ -13,11 +18,9 @@ type Record = {
 };
 
 export default class Actor {
-  private _tmpMessage: { type: MessageType; text: string } | null;
   records: Record[];
   constructor(readonly name: string) {
     this.records = [];
-    this._tmpMessage = null;
     this._flush();
     this._set("participant", `participant ${name}`);
   }
@@ -34,6 +37,12 @@ export default class Actor {
   writeNoteOver(text: string, actor: Actor): void {
     const leftText = `Note over ${this.name},${actor.name}: ${text}`;
     this._set("Note", leftText);
+  }
+  activate(): void {
+    this._set("activate", `activate ${this.name}`);
+  }
+  deactivate(): void {
+    this._set("deactivate", `deactivate ${this.name}`);
   }
   private _set(type: RecordType, v: string): void {
     const d: Record = {
