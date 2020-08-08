@@ -1,4 +1,5 @@
-import { MessageType, SequenceCounter, NotePosition } from "./index";
+import { MessageType, NotePosition } from "./definition";
+import Counter from "./counter";
 
 type MessageType = typeof MessageType[keyof typeof MessageType];
 type NotePosition = typeof NotePosition[keyof typeof NotePosition];
@@ -38,28 +39,19 @@ export default class Actor {
     );
     this._tmpMessage = null;
   }
-  writeNote(text: string, position: NotePosition, actor?: Actor): void {
-    if (actor && position !== "over")
-      throw new Error("Set NotePosition.OVER if set actor");
-    if (!actor && position === "over")
-      throw new Error("Set actor if set NotePosition.OVER ");
-    let leftText = "";
-    switch (position) {
-      case NotePosition.LEFT:
-      case NotePosition.RIGHT:
-        leftText = `Note ${position} of ${this.name}: ${text}`;
-        break;
-      case NotePosition.OVER:
-        leftText = `Note over ${this.name},${actor!.name}: ${text}`;
-        break;
-    }
+  writeNote(text: string, position: NotePosition): void {
+    const leftText = `Note ${position} of ${this.name}: ${text}`;
+    this._set("Note", leftText);
+  }
+  writeNoteOver(text: string, actor: Actor): void {
+    const leftText = `Note over ${this.name},${actor.name}: ${text}`;
     this._set("Note", leftText);
   }
   private _set(type: RecordType, v: string): void {
     const d: Record = {
       type,
       action: v,
-      seq: SequenceCounter.getNum(),
+      seq: Counter.getNum(),
       timestamp: new Date().getTime(),
     };
     this.records.push(d);
@@ -67,9 +59,9 @@ export default class Actor {
 
   private _getAllow(type: MessageType): string {
     switch (type) {
-      case MessageType.SYNC_MESSAGE:
+      case MessageType.SYNC:
         return "->>";
-      case MessageType.REPLY_MESSAGE:
+      case MessageType.REPLY:
         return "-->>";
       default:
         throw new Error("No such message type");

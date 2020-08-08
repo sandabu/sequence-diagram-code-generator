@@ -4,10 +4,10 @@ import mermaid from "mermaid";
 const momoko = new Actor("Momoko");
 const naopi = new Actor("Naopi");
 
-naopi.sendMessage("Hi", MessageType.SYNC_MESSAGE).to(momoko);
-momoko.sendMessage("Hello", MessageType.REPLY_MESSAGE).to(naopi);
-momoko.writeNote("Why did I say hello...?", NotePosition.LEFT);
-naopi.sendMessage("Hi", MessageType.SYNC_MESSAGE).to(naopi);
+naopi.sendMessage("Hi", MessageType.SYNC).to(momoko);
+momoko.sendMessage("Hello", MessageType.REPLY).to(naopi);
+momoko.writeNoteOver("Why did I say hello...?", momoko);
+naopi.sendMessage("Hi", MessageType.SYNC).to(naopi);
 
 const txt = dump(naopi, momoko);
 mermaid.initialize({

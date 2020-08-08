@@ -1,22 +1,5 @@
+import { MessageType, NotePosition } from "./definition";
 import Actor from "./actor";
-
-const MessageType = {
-  SYNC_MESSAGE: "sync_message",
-  REPLY_MESSAGE: "reply_message",
-} as const;
-
-const NotePosition = {
-  LEFT: "left",
-  RIGHT: "right",
-  OVER: "over",
-} as const;
-
-class SequenceCounter {
-  private static _num = 0;
-  static getNum(): number {
-    return this._num++;
-  }
-}
 
 const dump = (...actors: Actor[]): string => {
   const str = restructure(actors);
@@ -44,4 +27,4 @@ const restructure = (actors: Actor[]): string => {
   return res;
 };
 
-export { Actor, MessageType, NotePosition, SequenceCounter, dump };
+export { Actor, MessageType, NotePosition, dump };
