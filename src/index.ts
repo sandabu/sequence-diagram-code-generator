@@ -2,6 +2,7 @@ import { MessageType, NotePosition } from "./definition";
 import Actor from "./actor";
 
 const dump = (...actors: Actor[]): string => {
+  if (actors.length === 0) return "";
   const str = restructure(actors);
   console.log(str);
   return `sequenceDiagram
