@@ -1,6 +1,26 @@
  {
-    "name": "Sequence Maker",
+    "name": "Sequence Diagram Viewer",
     "version": "1.0",
+    "manifest_version": 2,
     "description": "Show mermaid style sequence diagram",
-    "manifest_version": 2
+    "devtools_page": "devtools.html",
+    "content_scripts": [
+      {
+        "matches": [ "<all_urls>" ],
+        "js": ["content.js"]
+      }
+    ],
+    "background": {
+       "scripts": ["background.js"],
+       "persistent": false
+    },
+    "permissions": [
+       "activeTab"
+    ],
+    "icons": {
+       "128": "icons/128.png",
+       "48": "icons/48.png",
+       "16": "icons/16.png"
+    },
+    "content_security_policy": "script-src 'self' https://unpkg.com https://cdn.jsdelivr.net; object-src 'self'"
  }

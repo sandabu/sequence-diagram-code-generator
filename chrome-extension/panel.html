@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.js"></script>
+  <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body style="background-color: #fff">
+  <div class="ui container">
+    <div class="ui form">
+      <div class="field">
+        <label>Render diagram from sequence-diagram-code-generator</label>
+        <button class="ui primary button" id="js-btn-render">Render</button>
+      </div>
+      <div class="field">
+        <label>Render diagram from inline code</label>
+        <textarea name="render-inline" placeholder="Alice->>Bob: hello"></textarea>
+      </div>
+      <div class="field">
+        <button class="ui primary button" id="js-btn-render-from-inline">Render</button>
+      </div>
+      <!--
+      <div class="field">
+        <button id="js-btn-flush">Flush</button>
+      </div>
+      -->
+    </div>
+    <div id="mermaid"></div>
+  </div>
+  <script src="./panel.js"></script>
+</body>
+</html>
