@@ -13,7 +13,7 @@ alice.deactivate();
 
 setTimeout(() => {
   alice.writeNoteOver("Why did I say hello...?", alice);
-  render();
+  dump(bob, alice, beth);
 }, 100);
 
 bob.writeNote("Got Alice's Hello", NotePosition.LEFT);
@@ -22,7 +22,6 @@ bob.sendMessage('Hi', beth, MessageType.SYNC);
 const render = () => {
   bob.writeNoteOver('Done', alice);
   const txt = dump(bob, alice, beth);
-  console.log(txt);
   mermaid.initialize({
     securityLevel: "loose",
   });

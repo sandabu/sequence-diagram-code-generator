@@ -4,8 +4,9 @@ import Actor from "./actor";
 const dump = (...actors: Actor[]): string => {
   if (actors.length === 0) return ""
   const str = restructure(actors);
-  let res = 'sequenceDiagram';
-  return res + '\n' + indent(str);
+  const res = 'sequenceDiagram' + '\n' + indent(str);
+  sessionStorage.setItem('seq_diagram', res);
+  return res;
 };
 
 const restructure = (actors: Actor[]): string => {
