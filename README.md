@@ -3,12 +3,12 @@
 const alice = new Actor("Alice");
 const bob = new Actor("Bob");
 
-bob.sendMessage("Hi", "Alice", MessageType.SYNC);
+bob.sendMessage("Hi", alice, MessageType.SYNC);
 alice.activate();
 alice.sendMessage("Think", alice, MessageType.SYNC);
 alice.sendMessage("Hello", bob, MessageType.REPLY);
 alice.deactivate();
-bob.writeNoteOver('Done', alice);
+bob.writeNoteOver("Done", alice);
 
 dump(bob, alice);
 // return below texts and store session storage(key: seq_diagram) for rendering diagram with chrome extension
@@ -24,3 +24,6 @@ dump(bob, alice);
 // 	deactivate Alice
 //	Note over Bob,Alice: Done
 ```
+
+# Chrome Extension
+https://chrome.google.com/webstore/detail/sequence-diagram-viewer/eodmfohlihemfofioemojhchjoapfabh?hl=ja&
